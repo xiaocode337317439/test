@@ -16,8 +16,9 @@
       </div>
       <o-page-table :form-data="formData" :columns="tabelColumns" :url="url"></o-page-table>
     </el-card>
-    <DialogComponent :edit-form-list="editFormList" :edit-type="editType" :form="form" :hide="hide" :modal-show="modalShow"
-                  :save="save" :close="close"/>
+    <!--<DialogComponent :edit-form-list="editFormList" :edit-type="editType" :form="form" :hide="hide" :modal-show="modalShow"-->
+                  <!--:save="save" :close="close"/>-->
+    <DialogComponent :modal-show="modalShow" :close="close"/>
   </div>
 </template>
 
