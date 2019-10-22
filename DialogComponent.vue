@@ -7,8 +7,8 @@
   >
     这里是内容
     <span slot="footer" class="dialog-footer">
-        <el-button>取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button @click="closeDialog">取 消</el-button>
+        <el-button type="primary" @click="confirm">确 定</el-button>
       </span>
   </el-dialog>
 </template>
@@ -34,6 +34,11 @@
       closeDialog () {
         //回调
         this.close()
+      },
+      confirm () {
+        //这里发请求
+        // 成功后关闭
+        this.closeDialog()
       }
     }
   }
