@@ -50,7 +50,7 @@
   export default {
     data() {
       return {
-        <!--决定是否显示的属性 占位隐藏看这里 记得下面还一个样式-->
+        // <!--决定是否显示的属性 占位隐藏看这里 记得下面还一个样式-->
         isHiddenBtn: true,
         tableData: [{
           date: '2016-05-02',
