@@ -15,6 +15,7 @@
       <template scope='redCount'>
         <i class="redtip bg-danger" v-show="redCount.text>0">{{redCount.text >= 99 ? '99+' : redCount.text}}</i>
       </template>
+    </RedPointComponent>
   </div>
 </template>
 <script>
