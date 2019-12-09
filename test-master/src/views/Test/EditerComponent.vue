@@ -91,7 +91,6 @@
           // result 必须是一个 JSON 格式字符串！！！否则报错
         }
       }
-
       this.editor.create()     // 创建富文本实例
       if (!this.content) {
         this.editor.txt.html('请编辑内容1')
