@@ -77,7 +77,7 @@ export default {
   props: {
     hideSidebar: {
       type: Boolean,
-      default: false
+      default: true
     },
     appName: {
       type: String,
@@ -105,16 +105,16 @@ export default {
   },
   methods: {
     async getUserInfo() {
-      const user = await this.$ajax.get(
-        '/innerapi/blackcat/audit/get-login-user',
-        {},
-        { _ignoreMsg: true }
-      )
-      this.$store.registerModule('userInfo', {
-        state: {
-          ...user
-        }
-      })
+      // const user = await this.$ajax.get(
+      //   '/innerapi/blackcat/audit/get-login-user',
+      //   {},
+      //   { _ignoreMsg: true }
+      // )
+      // this.$store.registerModule('userInfo', {
+      //   state: {
+      //     ...user
+      //   }
+      // })
     },
     async logout() {
       const { ssoUrl } = await this.$ajax.post(
