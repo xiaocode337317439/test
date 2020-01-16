@@ -36,8 +36,9 @@
       </el-col>
     </el-row>
     <el-card>
+      <!--url="http://mock.fe-dev.wanyol.com:8020/mock/5d9300aa42b05f407a939f7e/base/getHomeData"-->
       <o-page-table
-        url="http://mock.fe-dev.wanyol.com:8020/mock/5d9300aa42b05f407a939f7e/base/getHomeData"
+        url=""
         :has-page="false"
         :columns="tabelColumns"
         :data="data"

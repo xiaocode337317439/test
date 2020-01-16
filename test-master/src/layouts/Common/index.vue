@@ -77,7 +77,7 @@ export default {
   props: {
     hideSidebar: {
       type: Boolean,
-      default: true
+      default: false
     },
     appName: {
       type: String,
