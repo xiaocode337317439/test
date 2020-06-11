@@ -58,12 +58,13 @@
       handleChange(value) {
         const find = value.find(v => v.length === 1 && v[0] === '')
         const curr = !!find //等价 find ? true : false
+        let copy;
 
         const update = (last) => {
           //更新last
           this.last = last
           //由于this.valueModel.shift() 不能导致页面刷新，以下方法重新赋值
-          const copy = JSON.parse(JSON.stringify(this.valueModel))
+          copy = JSON.parse(JSON.stringify(this.valueModel))
           this.valueModel = []
           this.$nextTick(() => {
             this.valueModel = copy
@@ -92,7 +93,8 @@
             update(false)
           }
         }
-        //console.log(this.valueModel); 这里直接取值可能会有误差，因为数据在update的$nextTick 方法才被修改完成
+        //console.log(this.valueModel);  这里直接取值可能会有误差，因为数据在update的$nextTick 方法才被修改完成
+        //console.log(使用copy的值);       如果要取值，使用copy的值
       }
     }
   }
