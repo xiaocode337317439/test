@@ -1,107 +1,99 @@
 <template>
-  <el-table
-    :data="tableData"
-    :span-method="objectSpanMethod"
-    border
-    style="width: 100%; margin-top: 20px">
-    <el-table-column
-      prop="id"
-      label="ID"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名">
-    </el-table-column>
-    <el-table-column
-      prop="amount1"
-      label="数值 1（元）">
-    </el-table-column>
-    <el-table-column
-      prop="amount2"
-      label="数值 2（元）">
-    </el-table-column>
-    <el-table-column
-      prop="amount3"
-      label="数值 3（元）">
-    </el-table-column>
-  </el-table>
+  <el-cascader
+    v-model="valueModel"
+    :options="options"
+    :props="{ multiple: true }"
+    @change="handleChange"
+    collapse-tags
+    clearable>
+  </el-cascader>
 </template>
 
 <script>
   export default {
     data() {
       return {
-        tableData: [{
-          id: '12987122',
-          name: '王小虎',
-          amount1: '234',
-          amount2: '3.2',
-          amount3: 10
-        }, {
-          id: '12987122',
-          name: '王小虎',
-          amount1: '165',
-          amount2: '4.43',
-          amount3: 12
-        }, {
-          id: '12987124',
-          name: '王小虎',
-          amount1: '324',
-          amount2: '1.9',
-          amount3: 9
-        }, {
-          id: '12987125',
-          name: '王小虎',
-          amount1: '621',
-          amount2: '2.2',
-          amount3: 17
-        }, {
-          id: '12987125',
-          name: '王小虎',
-          amount1: '539',
-          amount2: '4.1',
-          amount3: 15
-        }]
+        valueModel: [],
+        options: [
+          {
+            value: 'zhinan',
+            label: '指南',
+            children: [
+              {
+                value: 'shejiyuanze',
+                label: '设计原则',
+              }, {
+                value: 'daohang',
+                label: '导航',
+              }
+            ]
+          }, {
+            value: 'ziyuan',
+            label: '资源',
+            children: [
+              {
+                value: 'axure',
+                label: 'Axure Components'
+              }, {
+                value: 'sketch',
+                label: 'Sketch Templates'
+              }, {
+                value: 'jiaohu',
+                label: '组件交互文档'
+              }
+            ]
+          }
+        ]
       };
     },
     mounted() {
-      //在数据加载成功后调用这一句
-      this.rowSpanArr = this.getRowSpan('id');
+      this.options.unshift({
+        value: '',
+        label: '全部'
+      })
+      this.valueModel = ['']
+      this.last = true //初始化选中
     },
     methods: {
-      getRowSpan(key) {
-        // 获取合并的数组
-        const spanArr = [];
-        let position = 0;
-        this.tableData.forEach((item, index) => {
-          if (index === 0) {
-            spanArr.push(1);
-            position = 0;
+      handleChange(value) {
+        console.log(value);
+        const find = value.find(v => v.length === 1 && v[0] === '')
+        const curr = !!find //等价 find ? true : false
+
+        const updateArr = () => {
+          //由于this.valueModel.shift() 不能导致页面刷新，以下方法重新赋值
+          const copy = JSON.parse(JSON.stringify(this.valueModel))
+          this.valueModel = []
+          this.$nextTick(() => {
+            this.valueModel = copy
+          })
+        }
+
+        if (this.last) {
+          if (curr) {
+            //如果上次选中，这次选中，代表点击的其它
+            this.valueModel.shift()
+            updateArr()
+            this.last = false
           } else {
-            //合并指定的属性key
-            if (this.tableData[index][key] === this.tableData[index - 1][key]) {
-              spanArr[position] += 1;
-              spanArr.push(0);
-              this.tableData[index][key] = this.tableData[index - 1][key];
-            } else {
-              spanArr.push(1);
-              position = index;
-            }
+            //如果上次选中,这次没选中，代表点击的全选
+            this.valueModel = ['']
+            updateArr()
+            this.last = true
           }
-        });
-        return spanArr;
-      },
-      objectSpanMethod({row, column, rowIndex, columnIndex}) {
-        // 只合并区域位置
-        if (columnIndex === 0) {
-          const row = this.rowSpanArr[rowIndex];
-          return {
-            rowspan: row, //行
-            colspan: 1 //列
-          };
+        } else {
+          if (curr) {
+            //如果上次没选中，这次选中，代表点击的全选
+            this.valueModel = ['']
+            updateArr()
+            this.last = true
+          } else {
+            //如果上次没选中，这次没选中，代表点击的其它
+            //不操作
+            this.last = false
+          }
         }
       }
     }
-  };
+  }
 </script>
