@@ -59,12 +59,15 @@
         const find = value.find(v => v.length === 1 && v[0] === '')
         const curr = !!find //等价 find ? true : false
 
-        const updateArr = () => {
+        const update = (last) => {
+          //更新last
+          this.last = last
           //由于this.valueModel.shift() 不能导致页面刷新，以下方法重新赋值
           const copy = JSON.parse(JSON.stringify(this.valueModel))
           this.valueModel = []
           this.$nextTick(() => {
             this.valueModel = copy
+            console.log(this.valueModel);
           })
         }
 
@@ -72,27 +75,23 @@
           if (curr) {
             //如果上次选中，这次选中，代表点击的其它
             this.valueModel.shift()
-            updateArr()
-            this.last = false
+            update(false)
           } else {
             //如果上次选中,这次没选中，代表点击的全选
             this.valueModel = ['']
-            updateArr()
-            this.last = true
+            update(true)
           }
         } else {
           if (curr) {
             //如果上次没选中，这次选中，代表点击的全选
             this.valueModel = ['']
-            updateArr()
-            this.last = true
+            update(true)
           } else {
             //如果上次没选中，这次没选中，代表点击的其它
             //不操作
-            this.last = false
+            update(false)
           }
         }
-        console.log(this.valueModel);
       }
     }
   }
