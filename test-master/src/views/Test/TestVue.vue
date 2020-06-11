@@ -94,7 +94,7 @@
           }
         }
         //console.log(this.valueModel);  这里直接取值可能会有误差，因为数据在update的$nextTick 方法才被修改完成
-        //console.log(使用copy的值);       如果要取值，使用copy的值
+        //console.log(copy);             如果要取值，使用copy的值
       }
     }
   }
