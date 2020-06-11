@@ -56,7 +56,6 @@
     },
     methods: {
       handleChange(value) {
-        console.log(value);
         const find = value.find(v => v.length === 1 && v[0] === '')
         const curr = !!find //等价 find ? true : false
 
@@ -93,6 +92,7 @@
             this.last = false
           }
         }
+        console.log(this.valueModel);
       }
     }
   }
