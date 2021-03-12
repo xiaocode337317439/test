@@ -8,6 +8,7 @@
     <el-table-column prop="labe1" label="标签1"> </el-table-column>
     <el-table-column prop="labe2" label="标签2"> </el-table-column>
     <el-table-column prop="labe3" label="标签3"> </el-table-column>
+    <el-table-column prop="labe4" label="标签4"> </el-table-column>
   </el-table>
 </template>
 
@@ -19,12 +20,14 @@ export default {
         {
           labe1: 10,
           labe2: "11",
-          labe3: "3.2"
+          labe3: "3.2",
+          labe4: "1"
         },
         {
           labe1: 12,
           labe2: "234",
-          labe3: "3.2"
+          labe3: "3.2",
+          labe4: null
         },
         {
           labe1: 10,
@@ -34,12 +37,14 @@ export default {
         {
           labe1: 12,
           labe2: "234",
-          labe3: "3.2"
+          labe3: "3.2",
+          labe4: null
         },
         {
           labe1: 15,
           labe2: "234",
-          labe3: "3.2"
+          labe3: "3.2",
+          labe4: "1"
         }
       ]
     };
@@ -49,7 +54,8 @@ export default {
     this.tableData = this.mergeTableRow(this.tableData, [
       "labe1",
       "labe2",
-      "labe3"
+      "labe3",
+      "labe4"
     ]);
   },
   methods: {
