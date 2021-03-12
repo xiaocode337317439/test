@@ -1,101 +1,92 @@
 <template>
-  <el-cascader
-    v-model="valueModel"
-    :options="options"
-    :props="{ multiple: true }"
-    @change="handleChange"
-    collapse-tags
-    clearable>
-  </el-cascader>
+  <el-table
+    :data="tableData"
+    :span-method="objectSpanMethod"
+    border
+    style="width: 100%; margin-top: 20px"
+  >
+    <el-table-column prop="labe1" label="标签1"> </el-table-column>
+    <el-table-column prop="labe2" label="标签2"> </el-table-column>
+    <el-table-column prop="labe3" label="标签3"> </el-table-column>
+  </el-table>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        valueModel: [],
-        options: [
-          {
-            value: 'zhinan',
-            label: '指南',
-            children: [
-              {
-                value: 'shejiyuanze',
-                label: '设计原则',
-              }, {
-                value: 'daohang',
-                label: '导航',
-              }
-            ]
-          }, {
-            value: 'ziyuan',
-            label: '资源',
-            children: [
-              {
-                value: 'axure',
-                label: 'Axure Components'
-              }, {
-                value: 'sketch',
-                label: 'Sketch Templates'
-              }, {
-                value: 'jiaohu',
-                label: '组件交互文档'
-              }
-            ]
-          }
-        ]
-      };
-    },
-    mounted() {
-      this.options.unshift({
-        value: '',
-        label: '全部'
-      })
-      this.valueModel = ['']
-      this.last = true //初始化选中
-    },
-    methods: {
-      handleChange(value) {
-        const find = value.find(v => v.length === 1 && v[0] === '')
-        const curr = !!find //等价 find ? true : false
-        let copy;
-
-        const update = (last) => {
-          //更新last
-          this.last = last
-          //由于this.valueModel.shift() 不能导致页面刷新，以下方法重新赋值
-          copy = JSON.parse(JSON.stringify(this.valueModel))
-          this.valueModel = []
-          this.$nextTick(() => {
-            this.valueModel = copy
-            console.log(this.valueModel);
-          })
+export default {
+  data() {
+    return {
+      tableData: [
+        {
+          labe1: 10,
+          labe2: "11",
+          labe3: "3.2"
+        },
+        {
+          labe1: 12,
+          labe2: "234",
+          labe3: "3.2"
+        },
+        {
+          labe1: 10,
+          labe2: "22",
+          labe3: "3.2"
+        },
+        {
+          labe1: 12,
+          labe2: "234",
+          labe3: "3.2"
+        },
+        {
+          labe1: 15,
+          labe2: "234",
+          labe3: "3.2"
         }
-
-        if (this.last) {
-          if (curr) {
-            //如果上次选中，这次选中，代表点击的其它
-            this.valueModel.shift()
-            update(false)
+      ]
+    };
+  },
+  created() {
+    // 给table赋值，重新遍历新增rowSpan属性，labe1,labe2,labe3为table里面需要合并的属性名称
+    this.tableData = this.mergeTableRow(this.tableData, [
+      "labe1",
+      "labe2",
+      "labe3"
+    ]);
+  },
+  methods: {
+    mergeTableRow(data, merge) {
+      if (!merge || merge.length === 0) {
+        return data;
+      }
+      merge.forEach(m => {
+        const mList = {};
+        data = data.map((v, index) => {
+          const rowVal = v[m];
+          if (mList[rowVal] && mList[rowVal].newIndex === index) {
+            mList[rowVal]["num"]++;
+            mList[rowVal]["newIndex"]++;
+            data[mList[rowVal]["index"]][m + "-span"].rowspan++;
+            v[m + "-span"] = {
+              rowspan: 0,
+              colspan: 0
+            };
           } else {
-            //如果上次选中,这次没选中，代表点击的全选
-            this.valueModel = ['']
-            update(true)
+            mList[rowVal] = { num: 1, index: index, newIndex: index + 1 };
+            v[m + "-span"] = {
+              rowspan: 1,
+              colspan: 1
+            };
           }
-        } else {
-          if (curr) {
-            //如果上次没选中，这次选中，代表点击的全选
-            this.valueModel = ['']
-            update(true)
-          } else {
-            //如果上次没选中，这次没选中，代表点击的其它
-            //不操作
-            update(false)
-          }
-        }
-        //console.log(this.valueModel);  这里直接取值可能会有误差，因为数据在update的$nextTick 方法才被修改完成
-        //console.log(copy);             如果要取值，使用copy的值
+          return v;
+        });
+      });
+      return data;
+    },
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      const span = column["property"] + "-span";
+      if (row[span]) {
+        return row[span];
       }
     }
   }
+};
 </script>
