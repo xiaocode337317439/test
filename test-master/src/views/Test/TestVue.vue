@@ -64,7 +64,7 @@ export default {
         return data;
       }
       //默认排序第一个需要排序的属性
-      this.tableData.sort((a, b) => a[merge[0]] - b[merge[0]]);
+      data.sort((a, b) => a[merge[0]] - b[merge[0]]);
       merge.forEach(m => {
         const mList = {};
         data = data.map((v, index) => {
