@@ -18,33 +18,34 @@ export default {
     return {
       tableData: [
         {
-          labe1: 10,
-          labe2: "11",
-          labe3: "3.2",
-          labe4: "1"
+          labe1: 1,
+          labe2: 2,
+          labe3: 3,
+          labe4: 4
         },
         {
-          labe1: 12,
-          labe2: "234",
-          labe3: "3.2",
-          labe4: null
+          labe1: 1,
+          labe2: 2,
+          labe3: 4,
+          labe4: 5
         },
         {
-          labe1: 10,
-          labe2: "22",
-          labe3: "3.2"
+          labe1: 2,
+          labe2: 3,
+          labe3: 3,
+          labe4: 5
         },
         {
-          labe1: 12,
-          labe2: "234",
-          labe3: "3.2",
-          labe4: null
+          labe1: 4,
+          labe2: 5,
+          labe3: 6,
+          labe4: 7
         },
         {
-          labe1: 15,
-          labe2: "234",
-          labe3: "3.2",
-          labe4: "1"
+          labe1: 5,
+          labe2: 3,
+          labe3: 7,
+          labe4: 5
         }
       ]
     };
@@ -59,10 +60,27 @@ export default {
     ]);
   },
   methods: {
+    sortTable(data = [], merge = []) {
+      // 提取需要合并的属性
+      // 将数据用列表示[[第一列...],[第二列...]...]
+      const map = merge.map((col, colIndex) => {
+        return [
+          data.map((row, rowIndex) => {
+            let obj = {};
+            // 行列坐标作为key
+            obj[`${rowIndex}-${colIndex}`] = row[col];
+            return obj;
+          })
+        ];
+      });
+      map.forEach(value => {});
+      console.log(map);
+    },
     mergeTableRow(data, merge) {
       if (!merge || merge.length === 0) {
         return data;
       }
+      this.sortTable(data, merge);
       //默认排序第一个需要排序的属性
       data.sort((a, b) => a[merge[0]] - b[merge[0]]);
       merge.forEach(m => {
